@@ -1,0 +1,30 @@
+# Development files
+node_modules/
+tests/
+coverage/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Generated files
+*.md
+!README.md
+
+# Git
+.git/
+.gitignore
+
+# Old versions
+depchecks.mjs
+depcheckv2.mjs
