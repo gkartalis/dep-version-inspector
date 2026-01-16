@@ -3,6 +3,10 @@ node_modules/
 tests/
 coverage/
 
+# TypeScript
+tsconfig.json
+*.tsbuildinfo
+
 # IDE
 .vscode/
 .idea/
@@ -17,13 +21,19 @@ Thumbs.db
 *.log
 npm-debug.log*
 
-# Generated files
+# Generated reports (but keep README.md)
 *.md
 !README.md
 
 # Git
 .git/
 .gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.travis.yml
+.circleci/
 
 # Old versions
 depchecks.mjs

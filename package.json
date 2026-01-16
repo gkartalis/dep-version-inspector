@@ -3,16 +3,22 @@
   "version": "0.1.0",
   "description": "Compare dependency versions across multiple repositories",
   "type": "module",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
     "dev-version-inspector": "./bin/dev-version-inspector.js"
   },
   "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build",
     "test": "jest"
   },
   "files": [
     "bin/",
+    "dist/",
     "src/",
+    "LICENSE",
     "README.md"
   ],
   "keywords": [
@@ -36,7 +42,9 @@
   },
   "homepage": "https://github.com/gkartalis/dep-version-inspector#readme",
   "devDependencies": {
-    "jest": "^29.7.0"
+    "@types/node": "^25.0.9",
+    "jest": "^29.7.0",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=18.0.0"

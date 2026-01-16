@@ -3,14 +3,19 @@ import { writeFileSync } from 'fs';
 import { readAllPackages } from './reader.js';
 import { compareSection, compareCombined, filterByMode } from './comparator.js';
 import { formatGrouped, formatCombined } from './formatter.js';
+import { CliOptions } from './cli.js';
 
-export async function run(options) {
+export async function run(options: CliOptions): Promise<void> {
   const { repoPaths, mode, outPath, includeSections, grouped } = options;
+
+  if (!repoPaths || !mode || !outPath || !includeSections) {
+    throw new Error('Missing required options');
+  }
 
   // Read all package.json files
   const { packages, repoNames } = readAllPackages(repoPaths);
 
-  let output;
+  let output: string;
 
   if (grouped) {
     // Grouped by section

@@ -1,6 +1,13 @@
 // Markdown formatter
 
-function buildHeader(repoNames, mode, includeSections) {
+import { ComparisonRow } from './comparator.js';
+
+interface SectionData {
+  section: string;
+  rows: ComparisonRow[];
+}
+
+function buildHeader(repoNames: string[], mode: string, includeSections: string[]): string {
   const date = new Date().toISOString().split('T')[0];
 
   let header = `# Dependency Comparison Report\n\n`;
@@ -13,7 +20,7 @@ function buildHeader(repoNames, mode, includeSections) {
   return header;
 }
 
-function buildTable(rows, repoNames, mode) {
+function buildTable(rows: ComparisonRow[], repoNames: string[], mode: string): string {
   if (rows.length === 0) {
     return '';
   }
@@ -41,7 +48,7 @@ function buildTable(rows, repoNames, mode) {
   return table;
 }
 
-export function formatGrouped(sections, repoNames, mode, includeSections) {
+export function formatGrouped(sections: SectionData[], repoNames: string[], mode: string, includeSections: string[]): string {
   const header = buildHeader(repoNames, mode, includeSections);
 
   let output = '';
@@ -67,7 +74,7 @@ export function formatGrouped(sections, repoNames, mode, includeSections) {
   return header + output;
 }
 
-export function formatCombined(rows, repoNames, mode, includeSections) {
+export function formatCombined(rows: ComparisonRow[], repoNames: string[], mode: string, includeSections: string[]): string {
   const header = buildHeader(repoNames, mode, includeSections);
 
   if (rows.length === 0) {

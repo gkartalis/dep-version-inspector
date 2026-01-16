@@ -128,23 +128,71 @@ Shows only dependencies that are already aligned across all repositories. Useful
 dev-version-inspector/
 ├── bin/
 │   └── dev-version-inspector.js  # CLI entry point
-├── src/
-│   ├── cli.js                    # Argument parsing
-│   ├── reader.js                 # Read package.json files
-│   ├── comparator.js             # Version comparison logic
-│   ├── registry.js               # npm registry checks
-│   ├── formatter.js              # Markdown formatting
-│   └── index.js                  # Main orchestrator
+├── src/                          # TypeScript source files
+│   ├── cli.ts                    # Argument parsing
+│   ├── reader.ts                 # Read package.json files
+│   ├── comparator.ts             # Version comparison logic
+│   ├── registry.ts               # npm registry checks
+│   ├── formatter.ts              # Markdown formatting
+│   └── index.ts                  # Main orchestrator
+├── dist/                         # Compiled JavaScript (generated)
+│   ├── *.js                      # Compiled code
+│   ├── *.d.ts                    # Type definitions
+│   └── *.js.map                  # Source maps
 ├── tests/                        # Test files
+├── tsconfig.json                 # TypeScript configuration
 ├── package.json
 └── README.md
 ```
+
+### Setup for Development
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Build TypeScript:
+   ```bash
+   npm run build
+   ```
 
 ### Running Tests
 
 ```bash
 npm test
 ```
+
+### Building
+
+The project uses TypeScript. Compile the source code:
+
+```bash
+npm run build
+```
+
+This compiles `src/*.ts` files to `dist/*.js` with type definitions.
+
+## Publishing to npm
+
+For maintainers publishing updates:
+
+1. Update version in `package.json`:
+   ```bash
+   npm version patch  # or minor, or major
+   ```
+
+2. Build and publish:
+   ```bash
+   npm publish
+   ```
+
+   The `prepublishOnly` script automatically runs `npm run build` before publishing.
+
+3. Push tags to GitHub:
+   ```bash
+   git push && git push --tags
+   ```
 
 ## License
 

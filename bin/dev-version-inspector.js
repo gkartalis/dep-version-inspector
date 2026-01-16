@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { parseArgs, showHelp } from '../src/cli.js';
-import { run } from '../src/index.js';
+import { parseArgs, showHelp } from '../dist/cli.js';
+import { run } from '../dist/index.js';
 
 const options = parseArgs(process.argv);
 

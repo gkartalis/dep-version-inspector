@@ -1,5 +1,16 @@
 // CLI argument parser
-export function parseArgs(argv) {
+
+export interface CliOptions {
+  help?: boolean;
+  error?: string;
+  repoPaths?: string[];
+  mode?: string;
+  outPath?: string;
+  includeSections?: string[];
+  grouped?: boolean;
+}
+
+export function parseArgs(argv: string[]): CliOptions {
   const args = argv.slice(2);
 
   if (args.length < 1 || args.includes('--help') || args.includes('-h')) {
@@ -43,7 +54,7 @@ export function parseArgs(argv) {
   };
 }
 
-export function showHelp() {
+export function showHelp(): string {
   return `
 dev-version-inspector - Compare dependency versions across multiple repositories
 
