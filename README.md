@@ -50,7 +50,7 @@ dev-version-inspector <repo1> <repo2> [repo3...] [options]
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--mode=<type>` | Comparison mode: `all`, `mismatches`, `matches` | `mismatches` |
+| `--mode=<type>` | Comparison mode: `all`, `mismatches`, `matches`, `shared` | `mismatches` |
 | `--out=<file>` | Output file path | `REPORT.md` |
 | `--include=<sections>` | Dependency sections to check (comma-separated) | `dependencies,devDependencies` |
 | `--grouped` | Group output by dependency section | `true` (default) |
@@ -90,6 +90,16 @@ See which dependencies are already aligned:
 npx dev-version-inspector ../repo1 ../repo2 --mode=matches
 ```
 
+### Show Shared Dependencies
+
+Show all dependencies that appear in at least 2 repositories with unified versions:
+
+```bash
+npx dev-version-inspector ../repo1 ../repo2 ../repo3 --mode=shared
+```
+
+This mode automatically combines `dependencies`, `devDependencies`, and `peerDependencies` sections, prioritizing versions in this order: dependencies > devDependencies > peerDependencies.
+
 ### Combined Output
 
 Show all dependencies in a single table instead of grouped by section:
@@ -119,6 +129,17 @@ Shows all dependencies with a match indicator (✅) for those that are aligned. 
 ### Matches Mode
 
 Shows only dependencies that are already aligned across all repositories. Useful for validation.
+
+### Shared Mode
+
+Shows dependencies that appear in at least 2 repositories, with a unified view across all dependency sections. This mode:
+- Automatically combines `dependencies`, `devDependencies`, and `peerDependencies`
+- Filters to show only dependencies present in 2 or more repos
+- Uses version priority: `dependencies` > `devDependencies` > `peerDependencies` when a dependency exists in multiple sections of the same repo
+- Shows all repos in the table (with empty cells for repos that don't have the dependency)
+- Eliminates duplicate entries
+
+Perfect for identifying common dependencies across multiple projects and spotting version inconsistencies.
 
 ## Development
 

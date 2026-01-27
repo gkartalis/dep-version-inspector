@@ -1,7 +1,7 @@
 // Main orchestrator
 import { writeFileSync } from 'fs';
 import { readAllPackages } from './reader.js';
-import { compareSection, compareCombined, filterByMode } from './comparator.js';
+import { compareSection, compareCombined, compareShared, filterByMode } from './comparator.js';
 import { formatGrouped, formatCombined } from './formatter.js';
 import { CliOptions } from './cli.js';
 
@@ -17,7 +17,11 @@ export async function run(options: CliOptions): Promise<void> {
 
   let output: string;
 
-  if (grouped) {
+  if (mode === 'shared') {
+    // Shared mode: show dependencies appearing in at least 2 repos
+    const rows = compareShared(packages, repoNames);
+    output = formatCombined(rows, repoNames, mode, ['dependencies', 'devDependencies', 'peerDependencies']);
+  } else if (grouped) {
     // Grouped by section
     const sections = [];
 

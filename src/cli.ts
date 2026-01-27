@@ -40,7 +40,7 @@ export function parseArgs(argv: string[]): CliOptions {
   }
 
   // Validate mode
-  const validModes = ['all', 'mismatches', 'matches'];
+  const validModes = ['all', 'mismatches', 'matches', 'shared'];
   if (!validModes.includes(mode)) {
     return { error: `Invalid mode: ${mode}. Must be one of: ${validModes.join(', ')}` };
   }
@@ -70,6 +70,7 @@ Options:
                             all        - Show all dependencies with match indicators (✅)
                             mismatches - Show only dependencies with different versions
                             matches    - Show only dependencies with matching versions
+                            shared     - Show dependencies appearing in at least 2 repos with unified versions
 
   --out=<file>            Output file path (default: REPORT.md)
                           Example: --out=my-report.md
@@ -99,6 +100,9 @@ Examples:
 
   # Show only matching dependencies
   dev-version-inspector ../repo1 ../repo2 --mode=matches
+
+  # Show shared dependencies across repos with unified versions
+  dev-version-inspector ../repo1 ../repo2 ../repo3 --mode=shared
 
   # Check specific sections and save to custom file
   dev-version-inspector ../repo1 ../repo2 --include=dependencies --out=deps.md

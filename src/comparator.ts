@@ -103,6 +103,65 @@ export function compareCombined(includeSections: string[], packages: (PackageJso
   return rows;
 }
 
+// Build comparison data for shared dependencies (appearing in at least 2 repos)
+// Version priority: dependencies > devDependencies > peerDependencies
+export function compareShared(packages: (PackageJson | null)[], repoNames: string[]): ComparisonRow[] {
+  // Collect all unique dependencies across all sections
+  const allDeps = new Set<string>();
+
+  packages.forEach(pkg => {
+    if (!pkg) return;
+    ['dependencies', 'devDependencies', 'peerDependencies'].forEach(section => {
+      const deps = pkg[section] as Record<string, string> | undefined;
+      if (deps) {
+        Object.keys(deps).forEach(d => allDeps.add(d));
+      }
+    });
+  });
+
+  const rows: ComparisonRow[] = [];
+
+  allDeps.forEach(dep => {
+    const versions: string[] = [];
+    let repoCount = 0;
+
+    // For each repo, find the version with priority: dependencies > devDependencies > peerDependencies
+    repoNames.forEach((name, i) => {
+      const pkg = packages[i];
+      let version = '';
+
+      if (pkg) {
+        // Check in order of priority
+        const dependencies = pkg['dependencies'] as Record<string, string> | undefined;
+        const devDependencies = pkg['devDependencies'] as Record<string, string> | undefined;
+        const peerDependencies = pkg['peerDependencies'] as Record<string, string> | undefined;
+
+        if (dependencies?.[dep]) {
+          version = dependencies[dep];
+        } else if (devDependencies?.[dep]) {
+          version = devDependencies[dep];
+        } else if (peerDependencies?.[dep]) {
+          version = peerDependencies[dep];
+        }
+
+        if (version) {
+          repoCount++;
+        }
+      }
+
+      versions.push(version);
+    });
+
+    // Only include if dependency appears in at least 2 repos
+    if (repoCount >= 2) {
+      const matches = versionsMatch(versions);
+      rows.push({ dep, versions, matches });
+    }
+  });
+
+  return rows.sort((a, b) => a.dep.localeCompare(b.dep));
+}
+
 // Filter rows based on mode
 export function filterByMode(rows: ComparisonRow[], mode: string): ComparisonRow[] {
   if (mode === 'all') {
