@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "dev-version-inspector": "./bin/dev-version-inspector.js"
+    "dev-version-inspector": "bin/dev-version-inspector.js"
   },
   "scripts": {
     "build": "tsc",
