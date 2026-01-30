@@ -1,6 +1,6 @@
 # dev-version-inspector
 
-Compare dependency versions across multiple repositories to identify mismatches and keep dependencies in sync.
+Compare package.json dependency versions across multiple repositories to identify mismatches and keep dependencies in sync.
 
 ## Quick Example
 
